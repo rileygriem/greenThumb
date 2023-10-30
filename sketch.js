@@ -26,7 +26,7 @@ function draw() {
 
 function connectToArduino() {
   // Search for the Arduino Nano 33 BLE
-  ble.connect(serviceUuid, gotCharacteristics); //IF THIS DOESN'T WORK PUT UUID IN FOR SOIL MOISTURE SENSOR
+  ble.connect(serviceUuid, gotCharacteristics);
 }
 
 function gotCharacteristics(error, characteristics) {
@@ -37,10 +37,11 @@ function gotCharacteristics(error, characteristics) {
 
   for (let characteristic of characteristics) {
     // Check for the matching characteristic UUID
-    if (characteristic.uuid === '19B10001-E8F2-537E-4F6C-D104768A1214') {
-      soilMoistureCharacteristic = characteristic;
+    if (characteristic.uuid === '19b10002-e8f2-537e-4f6c-d104768a1214') {
+      soilMoistureCharacteristic = characteristics[0];
       soilMoistureCharacteristic.startNotifications(gotSoilMoisture);
       console.log('Soil moisture characteristic found!');
+      console.log(characteristics)
     }
   }
 }
@@ -48,4 +49,5 @@ function gotCharacteristics(error, characteristics) {
 function gotSoilMoisture(data) {
   // Parse the received data as a float (percentage)
   soilMoisturePercentage = data.getFloatValue();
+  console.log(data);
 }
