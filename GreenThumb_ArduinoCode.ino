@@ -2,8 +2,8 @@
 
 const int soilMoisturePin = A0;
 
-BLEService soilMoistureService("19B10000-E8F2-537E-4F6C-D104768A1214"); // Custom service UUID
-BLEFloatCharacteristic soilMoistureCharacteristic("19B10001-E8F2-537E-4F6C-D104768A1214", BLERead | BLENotify);
+BLEService soilMoistureService("19b10001-e8f2-537e-4f6c-d104768a1214"); // Custom service UUID
+BLEFloatCharacteristic soilMoistureCharacteristic("19b10002-e8f2-537e-4f6c-d104768a1214", BLERead | BLENotify);
 
 void setup() {
   Serial.begin(9600);
@@ -42,40 +42,37 @@ void setup() {
 void loop() {
 
 // FOR TESTING WITHOUT BLUETOOTH
-  // int rawValue = analogRead(soilMoisturePin);
+  int rawValue = analogRead(soilMoisturePin);
 
-  //   float moisturePercentage = map(rawValue, 0, 1023, 100, 0);
+    float moisturePercentage = map(rawValue, 0, 1023, 100, 0);
 
-  //   Serial.print("Moisture Value: ");
-  //   Serial.print(rawValue);
-  //   Serial.print(" Moisture Percentage: ");
-  //   Serial.println(moisturePercentage);
+    Serial.print("Moisture Value: ");
+    Serial.print(rawValue);
+    Serial.print(" Moisture Percentage: ");
+    Serial.println(moisturePercentage);
 
-  //   delay(1000);
+    delay(1000);
 // END TESTING
 
-  //EXAMPLE CODE HAD THIS IDK WHAT IT DOES
-  //BLE.poll();
 
+  // BLEDevice central = BLE.central();
 
-  BLEDevice central = BLE.central();
+  // if (central) {
+  //   while (central.connected()) {
+  //     // Read soil moisture level from sensor and convert it to a percentage
+  //     int rawValue = analogRead(soilMoisturePin);
 
-  if (central) {
-    while (central.connected()) {
-      // Read soil moisture level from sensor and convert it to a percentage
-      int rawValue = analogRead(soilMoisturePin);
+  //     float moisturePercentage = map(rawValue, 0, 1023, 100, 0);
 
-      float moisturePercentage = map(rawValue, 0, 1023, 0, 100);
+  //     Serial.print("Moisture Value: ");
+  //     Serial.print(rawValue);
+  //     Serial.print(" Moisture Percentage: ");
+  //     Serial.println(moisturePercentage);
 
-      Serial.print("Moisture Value: ");
-      Serial.print(rawValue);
-      Serial.print(" Moisture Percentage: ");
-      Serial.println(moisturePercentage);
+  //     // Update the BLE characteristic with the moisture percentage
+  //     soilMoistureCharacteristic.writeValue(moisturePercentage);
 
-      // Update the BLE characteristic with the moisture percentage
-      soilMoistureCharacteristic.writeValue(moisturePercentage);
-
-      delay(1000);
-    }
-  }
+  //     delay(1000);
+  //   }
+  // }
 }
